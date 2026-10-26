@@ -50,6 +50,33 @@ python3 tiktok_created.py charlidamelio --all
 
 `--osint` and `--flags` add the optional sections, and `--all` turns on both. `--file names.txt` reads one target per line. Install the packages yourself first if you run the script directly: `python3 -m pip install -r requirements.txt`.
 
+## Install as a package (pip)
+
+To get the `tokintel` command on your `PATH` and import the lookup functions from your own code, install it with pip (still free, still no API key):
+
+```sh
+python3 -m pip install "git+https://github.com/ProtDos/TokIntel.git"
+```
+
+That gives you two console commands:
+
+```sh
+tokintel charlidamelio --all   # the plain CLI (same flags as above)
+tokintel-ui                    # the Rich terminal UI
+```
+
+And the lookup logic as a library:
+
+```python
+from tiktok_created import new_session, lookup, integrity_flags, resolve_pivots
+
+session = new_session()
+_, data = lookup("tiktok", session)
+print(data["account_created"])        # creation date
+print(integrity_flags(data))          # (severity, message) heuristics, no extra calls
+finders, shared, web = resolve_pivots(data, session)   # OSINT pivots (makes requests)
+```
+
 ## Accounts with audience controls
 
 Some accounts use TikTok's audience controls, such as the 18 and older setting. TikTok won't show those profiles to anyone who isn't signed in, so a normal lookup returns nothing for them.

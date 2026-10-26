@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tokintel"
+version = "0.1.0"
+description = "Free, keyless TikTok account lookup: creation date, profile details, OSINT pivots, and integrity flags."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+keywords = ["tiktok", "osint", "lookup", "creation-date", "cli"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet",
+    "Topic :: Security",
+]
+
+# Pinned to exact versions (same as requirements.txt) so future PyPI churn or
+# typo-squats can't slip in. Keyless forever: nothing here needs an API key.
+dependencies = [
+    "requests==2.34.2",
+    "colorama==0.4.6",
+    "rich==15.0.0",
+    "browser-cookie3==0.20.1",
+    "Pillow==12.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ProtDos/TokIntel"
+Source = "https://github.com/ProtDos/TokIntel"
+
+[project.scripts]
+# `tokintel` is the plain CLI; `tokintel-ui` is the Rich terminal UI.
+tokintel = "tiktok_created:main"
+tokintel-ui = "tiktok_ui:main"
+
+[tool.setuptools]
+# The project keeps its two modules at the repo root (see AGENTS.md layout),
+# so package them as top-level modules rather than auto-discovering the tree
+# (which also holds assets/, the desktop launcher, and this example script).
+py-modules = ["tiktok_created", "tiktok_ui"]
